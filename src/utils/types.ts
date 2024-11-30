@@ -1,15 +1,15 @@
 export type GeneratorFramesArgs = {
+    startTime?: number;
+    endTime?: number;
     videoUrl: string;
-    startTime: number;
-    endTime: number;
     amount: number;
     type: 'fps' | 'totalFrames';
 }
 
 export type ExtractFramesArgs = {
+    startTime?: number;
+    endTime?: number;
     video: HTMLVideoElement;
-    startTime: number;
-    endTime: number;
     amount: number;
     type: 'fps' | 'totalFrames';
 }

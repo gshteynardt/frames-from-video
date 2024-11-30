@@ -8,11 +8,12 @@ export const loadVideo = (videoUrl: string): Promise<HTMLVideoElement> => {
 
     return new Promise((resolve, reject) => {
         video.addEventListener("loadeddata", () => resolve(video), { once: true });
+
         video.addEventListener("error", () => reject("Failed to load video"), {
             once: true,
         });
     });
-}
+};
 
 export const extractFrame = async (
     video: HTMLVideoElement,
@@ -29,7 +30,7 @@ export const extractFrame = async (
             canvas.height = video.videoHeight;
 
             if (!context) {
-                reject('error');
+                reject('Failed to extract ');
                 return;
             }
 
@@ -42,9 +43,14 @@ export const extractFrame = async (
 };
 
 
-export const extractFrames = async ({  video, amount, startTime, endTime, type }: ExtractFramesArgs): Promise<string[]> => {
+export const extractFrames = async ({ video, amount, startTime, endTime, type }: ExtractFramesArgs): Promise<string[]> => {
     const duration = video.duration;
-    const timeRange = endTime - startTime;
+
+    if (!endTime || endTime > duration) {
+        endTime = duration;
+    }
+
+    const timeRange = endTime - (startTime ?? 0);
 
     const totalFrames =
         type === "fps"
