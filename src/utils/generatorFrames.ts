@@ -70,7 +70,11 @@ export const extractFrames = async ({
 
     const frames: string[] = [];
 
-    for (let time = 0; time < duration; time += duration / totalFrames) {
+    for (
+        let time = startTime ?? 0;
+        time <= endTime;
+        time += timeRange / totalFrames
+    ) {
         try {
             const frame = await extractFrame(video, time);
             frames.push(frame);
