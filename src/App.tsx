@@ -66,17 +66,25 @@ function App() {
                     onChange={handleChangeSettings}
                 />
                 <RadioGroup
+                    className="main__radio-group"
                     aria-labelledby="generation-frames-type-radio-buttons-group"
                     name="generation-frames-type"
                     value={generationType}
                     onChange={handleChangeType}
                 >
-                    <FormControlLabel
-                        value="fps"
-                        disabled={loading}
-                        control={<Radio />}
-                        label="fps - frames are evenly distributed within each second"
-                    />
+                    <div>
+                        <FormControlLabel
+                            value="fps"
+                            disabled={loading}
+                            control={<Radio />}
+                            label="fps - frames are evenly distributed within each second"
+                        />
+                        <p className="main__fps-warning">
+                            Selecting a large time range for frame extraction in
+                            the ‘fps’ mode may result in generating a very large
+                            number of frames.
+                        </p>
+                    </div>
                     <FormControlLabel
                         value="totalFrames"
                         disabled={loading}
@@ -88,7 +96,7 @@ function App() {
             <InputFileUpload
                 className="main__file-upload"
                 onChange={onInputFile}
-                disabled={loading}
+                disabled={loading || startError}
             />
             {loading && (
                 <Skeleton

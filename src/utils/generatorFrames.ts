@@ -52,9 +52,8 @@ export const extractFrames = async ({
     type,
 }: ExtractFramesArgs): Promise<string[]> => {
     const duration = video.duration;
-    console.log(duration);
 
-    if (!startTime || startTime > duration) {
+    if (startTime && startTime > duration) {
         startTime = duration;
     }
 
