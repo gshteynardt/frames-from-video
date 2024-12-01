@@ -1,45 +1,61 @@
-import { useState, useCallback } from 'react'
-import type { ChangeEvent } from 'react';
+import { useState, useCallback } from "react";
+import type { ChangeEvent } from "react";
 
-import { generatorFrames } from '../utils/generatorFrames';
+import { generatorFrames } from "../utils/generatorFrames";
+import type { GeneratorFramesArgs } from "../types";
 
-export const useGenerateFrames = () => {
-    const [images, setImages] = useState<string[]>();
+type Props = {
+    amount: number;
+    startTime: number;
+    endTime: number;
+    generationType: GeneratorFramesArgs["type"];
+};
+
+export const useGenerateFrames = ({
+    amount,
+    startTime,
+    endTime,
+    generationType,
+}: Props) => {
+    const [imagesData, setImagesData] = useState<string[]>();
     const [loading, setLoading] = useState(false);
 
-    const onInputFile = useCallback(async (event: ChangeEvent<HTMLInputElement>) => {
-        setImages([]);
-        setLoading(true);
+    const onInputFile = useCallback(
+        async (event: ChangeEvent<HTMLInputElement>) => {
+            setImagesData([]);
+            setLoading(true);
 
-        const fileList = event.target.files;
+            const fileList = event.target.files;
 
-        if (!fileList) {
-            return;
-        }
+            if (!fileList) {
+                return;
+            }
 
-        const [file] = fileList;
-        const fileUrl = URL.createObjectURL(file);
+            const [file] = fileList;
+            const fileUrl = URL.createObjectURL(file);
 
-        try {
-            const frames = await generatorFrames({
-                videoUrl: fileUrl,
-                amount: 100,
-                startTime: 0,
-                endTime: 30,
-                type: "totalFrames",
-            });
+            try {
+                const frames = await generatorFrames({
+                    videoUrl: fileUrl,
+                    amount,
+                    startTime,
+                    endTime,
+                    type: generationType,
+                });
 
-            setImages(frames);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false)
-        }        
-    }, []);
+                setImagesData(frames);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        },
+        [amount, startTime, endTime, generationType],
+    );
 
-    return  {
-        images,
+    return {
+        imagesData,
         loading,
         onInputFile,
-    }
+    };
 };

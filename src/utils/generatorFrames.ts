@@ -1,4 +1,4 @@
-import { GeneratorFramesArgs, ExtractFramesArgs } from './types';
+import { GeneratorFramesArgs, ExtractFramesArgs } from "../types";
 
 export const loadVideo = (videoUrl: string): Promise<HTMLVideoElement> => {
     const video = document.createElement("video");
@@ -7,7 +7,9 @@ export const loadVideo = (videoUrl: string): Promise<HTMLVideoElement> => {
     video.src = videoUrl;
 
     return new Promise((resolve, reject) => {
-        video.addEventListener("loadeddata", () => resolve(video), { once: true });
+        video.addEventListener("loadeddata", () => resolve(video), {
+            once: true,
+        });
 
         video.addEventListener("error", () => reject("Failed to load video"), {
             once: true,
@@ -17,7 +19,7 @@ export const loadVideo = (videoUrl: string): Promise<HTMLVideoElement> => {
 
 export const extractFrame = async (
     video: HTMLVideoElement,
-    time: number
+    time: number,
 ): Promise<string> => {
     video.currentTime = time;
 
@@ -30,7 +32,7 @@ export const extractFrame = async (
             canvas.height = video.videoHeight;
 
             if (!context) {
-                reject('Failed to extract ');
+                reject("Failed to extract ");
                 return;
             }
 
@@ -42,9 +44,19 @@ export const extractFrame = async (
     });
 };
 
-
-export const extractFrames = async ({ video, amount, startTime, endTime, type }: ExtractFramesArgs): Promise<string[]> => {
+export const extractFrames = async ({
+    video,
+    amount,
+    startTime,
+    endTime,
+    type,
+}: ExtractFramesArgs): Promise<string[]> => {
     const duration = video.duration;
+    console.log(duration);
+
+    if (!startTime || startTime > duration) {
+        startTime = duration;
+    }
 
     if (!endTime || endTime > duration) {
         endTime = duration;
@@ -64,7 +76,7 @@ export const extractFrames = async ({ video, amount, startTime, endTime, type }:
             const frame = await extractFrame(video, time);
             frames.push(frame);
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
     }
 
@@ -78,7 +90,13 @@ export const extractFrames = async ({ video, amount, startTime, endTime, type }:
  * @param method The method of extraction (fps or totalFrames).
  * @returns An array of base64 strings representing the extracted frames.
  */
-export const generatorFrames = async ({ videoUrl, startTime, endTime, amount, type }: GeneratorFramesArgs): Promise<string[]> => {
+export const generatorFrames = async ({
+    videoUrl,
+    startTime,
+    endTime,
+    amount,
+    type,
+}: GeneratorFramesArgs): Promise<string[]> => {
     const video = await loadVideo(videoUrl);
     return extractFrames({ video, amount, startTime, endTime, type });
 };

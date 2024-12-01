@@ -1,0 +1,20 @@
+.main {
+    max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    &__fields {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__skeleton {
+        width: 100%;
+    }
+
+    &__file-upload {
+        align-self: center;
+    }
+}

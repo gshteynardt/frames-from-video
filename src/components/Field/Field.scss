@@ -1,0 +1,9 @@
+.field {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+
+    &__input {
+        max-width: 100px;
+    }
+}
