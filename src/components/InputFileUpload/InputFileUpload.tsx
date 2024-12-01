@@ -21,7 +21,7 @@ export const InputFileUpload = ({ className, disabled, onChange }: Props) => {
             variant="contained"
             tabIndex={-1}
         >
-            Upload file
+            Upload video file
             <input
                 className="input-file-upload__hidden-input"
                 type="file"

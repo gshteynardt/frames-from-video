@@ -40,6 +40,7 @@ function App() {
                     size="small"
                     label="start time of the video to extract frames"
                     name="start"
+                    placeholder="0s"
                     disabled={loading}
                     value={startTimeValue}
                     error={startError}
@@ -51,6 +52,7 @@ function App() {
                     size="small"
                     label="end time of the video to extract frames"
                     name="end"
+                    placeholder="0s"
                     disabled={loading}
                     value={endTimeValue}
                     onChange={handleChangeSettings}
