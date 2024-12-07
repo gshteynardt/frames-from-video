@@ -22,12 +22,11 @@ export const extractFrame = async (
     time: number,
 ): Promise<string> => {
     video.currentTime = time;
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
 
     return new Promise((resolve, reject) => {
         const eventCallback = () => {
-            video.removeEventListener("seeked", eventCallback);
-            const canvas = document.createElement("canvas");
-            const context = canvas.getContext("2d");
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
 
